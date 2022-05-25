@@ -7,7 +7,7 @@ import {dirname} from "path"
 
 // 手动配置
 const entry = 'src/index.ts';   // 输入（入口）文件
-const formats = ['es', 'umd'];  //所需构建的模块格式
+const formats = ['es', 'umd',"iife"];  //所需构建的模块格式
 
 // 自动配置
 const pkgName = getBaseNameOfHumpFormat(pkg.name);  //驼峰格式的 pkg.name

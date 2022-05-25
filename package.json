@@ -1,8 +1,8 @@
 {
   "name": "@gby/event-bus",
   "version": "0.0.0",
-  "description": "event-bus 称为 库构建模板，又称 公共代码构建模板 ，是专门用于构建 公共代码（如：封装的库、工具等） 的 vite 配置模板，当需要开发和构建公共代码时，直接克隆本项目即可，并默认在的 src 目录下开发即可；",
-  "main": "dist/event-bus.cjs.js",
+  "description": "event-bus 是基于原生 EventTarget 类来开发的事件总线，充分复用原生的能力增加了易用性",
+  "main": "dist/event-bus.umd.js",
   "module": "dist/event-bus.es.js",
   "types": "dist/event-bus.d.ts",
   "sideEffects": false,
@@ -16,12 +16,10 @@
     "email": "guobinyong@qq.com"
   },
   "keywords": [
-    "前端库",
-    "web库",
-    "library",
-    "vite",
-    "vite 模板",
-    "公共代码"
+    "事件总结",
+    "event bus",
+    "event",
+    "EventTarget"
   ],
   "author": {
     "name": "郭斌勇",
