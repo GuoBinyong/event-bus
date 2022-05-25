@@ -36,9 +36,9 @@
   ],
   "scripts": {
     "dev": "vite",
-    "build": "tsc  --emitDeclarationOnly && vite build",
+    "build": "tsc  --emitDeclarationOnly && vite build && api-extractor run -c config/api-extractor.jsonc",
     "preview": "vite preview",
-    "doc":"api-documenter markdown -i ./temp"
+    "doc":"api-documenter markdown -i ./temp -o doc"
   },
   "devDependencies": {
     "@microsoft/api-documenter": "^7.17.15",

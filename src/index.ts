@@ -1,3 +1,37 @@
+/**
+ * 基于原生Dom中 EventTarget 类的事件总线
+ * 
+ * @remarks
+ * # 背景
+ * npm 上有很多事件总线的库，它们基本上都有以下特点 和 缺点：
+ * - 没有继承任何已有的类，都是重新实现的；（没有发挥 `EventTarget` 的功能）
+ * - 自己单独维护了事件和监听函数的映射关系；（多此一举，执行效率不高）
+ * - 监听事件 和 触发事件的方法与 Dom 中的 `EventTarget` 不一致。（增加学习成本）
+ * 
+ * 其实 `EventTarget` 完全可以胜任事件总结的任务，`window` 也是一个较理想的事件总线实例。只是从理想的角度出发，他们还有以下小小的不足之处：
+ * - 缺乏更丰富的 和 便捷的 添加事件的 API，如： 一次性监听方法 `onceListen()` 等。
+ * - 派发事件时，需要手动配置 `Event` 对象的某些属性，如：`{bubbles: false,cancelable: true,composed: false}`
+ * - `window` 上会经常触发很多不相关的事件，这会增加事件检索成本
+ * 
+ * 监于以上原因，该库就诞生了。
+ * 
+ * # 特性
+ * - 基于 `EventTarget` 实现，拥有极少量的代码 和 极高的性能
+ * - 拥有丰富、易用的 API，如：一次性监听、指定次数的监听 等等
+ * - 派发事件时，自动配置 Event 相关属性为合适的值
+ * 
+ * @packageDocumentation
+ */
+
+
+
+
+
+
+/**
+ * 事件监听器的选项
+ * @public
+ */
 export interface EventBusEventListenerOptions extends AddEventListenerOptions {
     /**
      * 监听的次数
@@ -5,19 +39,29 @@ export interface EventBusEventListenerOptions extends AddEventListenerOptions {
     times?: number | null;
   }
   
+  /**
+   * 移除监听器
+   * @public
+   */
   export type RemoveListener = () => void;
   
+  /**
+   * 事件总线
+   * @public
+   */
   export class EventBus<Detail = any> extends EventTarget {
     /**
      * 添加事件监听器；会返回一个用于移除事件监听器的函数；
+     * @remarks
      * 当没有指定 times 选项时，也可以通过 EventTarget 的 removeEventListener 方法移除；
      * 当指定 times 选项时，只能通过 返回的函数移除监听器
-     * @param type
-     * @param callback
-     * @param options
-     * @returns ()=>void; 返回用于移除事件监听器的函数； 也可以通过 EventTarget 的 removeEventListener 方法移除
+     * 
+     * @param type - 事件名字、事件类型
+     * @param callback - 事件监听器，触发事件时会调用此函数
+     * @param options - 选项
+     * @returns  返回用于移除事件监听器的函数； 也可以通过 `EventTarget#removeEventListener` 方法移除
      */
-    addEventListener(
+    public override addEventListener(
       type: string,
       callback: EventListenerOrEventListenerObject | null,
       options?: EventBusEventListenerOptions | boolean,
@@ -36,9 +80,26 @@ export interface EventBusEventListenerOptions extends AddEventListenerOptions {
       };
     }
   
-    public dispatchEvent(name: string, detail?: Detail): boolean;
-    public dispatchEvent(event: Event): boolean;
-    public dispatchEvent(event: string | Event, detail?: Detail) {
+
+    /**
+     * 派发事件
+     * @remarks 
+     * 如果该被派发的事件的事件类型(event's type)在方法调用之前没有被经过初始化被指定，就会抛出一个 UNSPECIFIED_EVENT_TYPE_ERR 异常，或者如果事件类型是null或一个空字符串. event handler 就会抛出未捕获的异常； 这些 event handlers 运行在一个嵌套的调用栈中： 他们会阻塞调用直到他们处理完毕，但是异常不会冒泡。
+     * 
+     * **注意：** 与浏览器原生事件不同，原生事件是由DOM派发的，并通过event loop异步调用事件处理程序，而dispatchEvent()则是同步调用事件处理程序。在调用dispatchEvent()后，所有监听该事件的事件处理程序将在代码继续前执行并返回。
+     * 
+     * @param name - 事件的名字
+     * @param detail - 事件所携带的数据、信息
+     * @returns 当该事件是可取消的(cancelable为true)并且至少一个该事件的 事件处理方法 调用了 `Event#preventDefault()`，则返回值为 `false`；否则返回`true`。
+     */
+    public override dispatchEvent(name: string, detail?: Detail): boolean;
+
+    /**
+     * 派发事件
+     * @param event - 事件对象
+     */
+    public override dispatchEvent(event: Event): boolean;
+    public override dispatchEvent(event: string | Event, detail?: Detail) {
       const cusEvent =
         event instanceof Event
           ? event
@@ -52,13 +113,17 @@ export interface EventBusEventListenerOptions extends AddEventListenerOptions {
     }
   
     /**
-     * 添加一次性的事件监听器；会返回一个用于移除一次性事件监听器的函数； 也可以通过 EventTarget 的 removeEventListener 方法移除
-     * @param type
-     * @param callback
-     * @param options
+     * 添加一次性的事件监听器；
+     * 
+     * @remarks
+     * 会返回一个用于移除一次性事件监听器的函数； 也可以通过 EventTarget 的 removeEventListener 方法移除
+     * 
+     * @param type - 事件名字、事件类型
+     * @param callback - 事件监听器，触发事件时会调用此函数
+     * @param options - 选项
      * @returns removeEventListener():void; 返回用于移除一次性事件监听器的函数； 也可以通过 EventTarget 的 removeEventListener 方法移除
      */
-    onceListen(
+     onceListen(
       type: string,
       callback: EventListener,
       options?: AddEventListenerOptions,
@@ -67,9 +132,13 @@ export interface EventBusEventListenerOptions extends AddEventListenerOptions {
     }
   
     /**
-     * 添加监听指定次数的事件监听器；当事件触发指定次数后，会自动移除监听器；会返回一个用于移除事件监听器的函数； 不能通过 EventTarget 的 removeEventListener 方法移除
-     * @param type
-     * @param callback
+     * 添加监听指定次数的事件监听器；
+     * 
+     * @remarks
+     * 当事件触发指定次数后，会自动移除监听器；会返回一个用于移除事件监听器的函数； 不能通过 EventTarget 的 removeEventListener 方法移除
+     * 
+     * @param type - 事件名字、事件类型
+     * @param callback - 事件监听器，触发事件时会调用此函数
      * @param times  需要监听的次数，如果小于 1 ，永远不会自动移除事件监听器，需要手动移除
      * @returns removeEventListener():void; 返回用于移除事件监听器的函数； 不能通过 EventTarget 的 removeEventListener 方法移除
      */
