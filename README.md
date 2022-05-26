@@ -1,4 +1,5 @@
 [git仓库]: https://github.com/GuoBinyong/event-bus
+[发行地址]: https://github.com/GuoBinyong/event-bus/releases
 [issues]: https://github.com/GuoBinyong/event-bus/issues
 
 [码云仓库]: https://gitee.com/guobinyong/event-bus
@@ -8,21 +9,13 @@
 
 
 
-
-目录
-=======
-
-- [目录](#目录)
-- [内容](#内容)
+> 目录
 - [1. 背景](#1-背景)
 - [2. 简介](#2-简介)
 - [3. 安装方式](#3-安装方式)
   - [3.1. 方式1：通过 npm 安装](#31-方式1通过-npm-安装)
   - [3.2. 方式3：通过`<script>`标签引入](#32-方式3通过script标签引入)
 - [4. API接口文档](#4-api接口文档)
-
-内容
-=======
 
 
 
@@ -82,11 +75,11 @@ npm install @gby/event-bus
    <script src="path/to/package/event-bus.iife.js"></script>
    ```
    
-2. 使用全局的 `deepCopy`
+2. 使用全局的 `EventBus`
    ```
    <script>
-   // 使用全局的 deepCopy
-       const copy = deepCopy.deepCopy(value);
+   // 使用全局的 EventBus
+       const eBus = new EventBus();
    </script>
    ```
 

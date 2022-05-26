@@ -153,3 +153,5 @@ export interface EventBusEventListenerOptions extends AddEventListenerOptions {
     }
   }
   
+
+  export default EventBus
