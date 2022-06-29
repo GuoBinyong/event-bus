@@ -34,12 +34,36 @@ export interface EventBusEventListenerOptions extends AddEventListenerOptions {
    * @public
    */
   export type RemoveListener = () => void;
+
+
+/**
+ * EventBus 的 自定义事件的监听器
+ */
+export interface BusListener<Detail = any> {
+    (evt: CustomEvent<Detail>): void;
+}
+
+/**
+ * EventBus 的 自定义事件的监听器对象
+ */
+export interface BusListenerObject<Detail = any> {
+    handleEvent(object: CustomEvent<Detail>): void;
+}
+
+/**
+ * EventBus 的 自定义事件的监听器 或 监听器对象
+ */
+type BusListenerOrEventListenerObject<Detail = any> = BusListener<Detail> | BusListenerObject<Detail>;
+
+
   
   /**
    * 事件总线
    * @public
    */
-  export class EventBus<Detail = any> extends EventTarget {
+  export class EventBus<EventDetailMap extends {[name:string]: any} = any> extends EventTarget {
+
+
     /**
      * 添加事件监听器；会返回一个用于移除事件监听器的函数；
      * @remarks
@@ -51,6 +75,16 @@ export interface EventBusEventListenerOptions extends AddEventListenerOptions {
      * @param options - 选项
      * @returns  返回用于移除事件监听器的函数； 也可以通过 `EventTarget#removeEventListener` 方法移除
      */
+     public override addEventListener<Type extends keyof EventDetailMap>(
+      type: Type,
+      callback: BusListenerOrEventListenerObject<EventDetailMap[Type]> | null,
+      options?: EventBusEventListenerOptions | boolean,
+    ): RemoveListener;
+     public override addEventListener(
+      type: string,
+      callback: EventListenerOrEventListenerObject | null,
+      options?: EventBusEventListenerOptions | boolean,
+    ): RemoveListener;
     public override addEventListener(
       type: string,
       callback: EventListenerOrEventListenerObject | null,
@@ -69,8 +103,11 @@ export interface EventBusEventListenerOptions extends AddEventListenerOptions {
         this.removeEventListener(type, callback, options);
       };
     }
-  
 
+
+
+
+  
     /**
      * 派发事件
      * @remarks 
@@ -82,14 +119,15 @@ export interface EventBusEventListenerOptions extends AddEventListenerOptions {
      * @param detail - 事件所携带的数据、信息
      * @returns 当该事件是可取消的(cancelable为true)并且至少一个该事件的 事件处理方法 调用了 `Event#preventDefault()`，则返回值为 `false`；否则返回`true`。
      */
-    public override dispatchEvent(name: string, detail?: Detail): boolean;
+     public override dispatchEvent<Type extends keyof EventDetailMap>(name: Type, detail: EventDetailMap[Type]): boolean;
+    public override dispatchEvent(name: string, detail?: any): boolean;
 
     /**
      * 派发事件
      * @param event - 事件对象
      */
     public override dispatchEvent(event: Event): boolean;
-    public override dispatchEvent(event: string | Event, detail?: Detail) {
+    public override dispatchEvent(event: string | Event, detail?: EventDetailMap) {
       const cusEvent =
         event instanceof Event
           ? event
@@ -102,6 +140,8 @@ export interface EventBusEventListenerOptions extends AddEventListenerOptions {
       return super.dispatchEvent(cusEvent);
     }
   
+
+
     /**
      * 添加一次性的事件监听器；
      * 
@@ -113,13 +153,25 @@ export interface EventBusEventListenerOptions extends AddEventListenerOptions {
      * @param options - 选项
      * @returns removeEventListener():void; 返回用于移除一次性事件监听器的函数； 也可以通过 EventTarget 的 removeEventListener 方法移除
      */
+     onceListen<Type extends keyof EventDetailMap>(
+      type: Type,
+      callback: BusListener<EventDetailMap[Type]>,
+      options?: AddEventListenerOptions,
+    ): RemoveListener;
      onceListen(
       type: string,
       callback: EventListener,
       options?: AddEventListenerOptions,
+    ): RemoveListener;
+     onceListen(
+      type: string,
+      callback: EventListener | BusListener<any>,
+      options?: AddEventListenerOptions,
     ): RemoveListener {
       return this.addEventListener(type, callback, { ...options, once: true });
     }
+
+
   
     /**
      * 添加监听指定次数的事件监听器；
@@ -132,9 +184,19 @@ export interface EventBusEventListenerOptions extends AddEventListenerOptions {
      * @param times  需要监听的次数，如果小于 1 ，永远不会自动移除事件监听器，需要手动移除
      * @returns removeEventListener():void; 返回用于移除事件监听器的函数； 不能通过 EventTarget 的 removeEventListener 方法移除
      */
-    multipleListen(
+     multipleListen<Type extends keyof EventDetailMap>(
+      type: Type,
+      callback: BusListener<EventDetailMap[Type]>,
+      times: number,
+    ): RemoveListener ;
+     multipleListen(
       type: string,
       callback: EventListener,
+      times: number,
+    ): RemoveListener ;
+    multipleListen(
+      type: string,
+      callback: EventListener | BusListener<any>,
       times: number,
     ): RemoveListener {
       let count = 0;
@@ -142,7 +204,7 @@ export interface EventBusEventListenerOptions extends AddEventListenerOptions {
         if (++count >= times) {
           this.removeEventListener(type, listener);
         }
-        callback.call(this, event);
+        callback.call(this, event as any);
       };
   
       super.addEventListener(type, listener);
