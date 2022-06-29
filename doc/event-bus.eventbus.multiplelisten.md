@@ -9,15 +9,15 @@
 <b>Signature:</b>
 
 ```typescript
-multipleListen(type: string, callback: EventListener, times: number): RemoveListener;
+multipleListen<Type extends keyof EventDetailMap>(type: Type, callback: BusListener<EventDetailMap[Type]>, times: number): RemoveListener;
 ```
 
 ## Parameters
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  type | string | 事件名字、事件类型 |
-|  callback | EventListener | 事件监听器，触发事件时会调用此函数 |
+|  type | Type | 事件名字、事件类型 |
+|  callback | [BusListener](./event-bus.buslistener.md)<!-- -->&lt;EventDetailMap\[Type\]&gt; | 事件监听器，触发事件时会调用此函数 |
 |  times | number | 需要监听的次数，如果小于 1 ，永远不会自动移除事件监听器，需要手动移除 |
 
 <b>Returns:</b>

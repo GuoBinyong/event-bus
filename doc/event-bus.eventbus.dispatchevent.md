@@ -9,15 +9,15 @@
 <b>Signature:</b>
 
 ```typescript
-dispatchEvent(name: string, detail?: Detail): boolean;
+dispatchEvent<Type extends keyof EventDetailMap>(name: Type, detail: EventDetailMap[Type]): boolean;
 ```
 
 ## Parameters
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  name | string | 事件的名字 |
-|  detail | Detail | <i>(Optional)</i> 事件所携带的数据、信息 |
+|  name | Type | 事件的名字 |
+|  detail | EventDetailMap\[Type\] | 事件所携带的数据、信息 |
 
 <b>Returns:</b>
 

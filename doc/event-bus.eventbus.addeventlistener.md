@@ -9,15 +9,15 @@
 <b>Signature:</b>
 
 ```typescript
-addEventListener(type: string, callback: EventListenerOrEventListenerObject | null, options?: EventBusEventListenerOptions | boolean): RemoveListener;
+addEventListener<Type extends keyof EventDetailMap>(type: Type, callback: BusListenerOrEventListenerObject<EventDetailMap[Type]> | null, options?: EventBusEventListenerOptions | boolean): RemoveListener;
 ```
 
 ## Parameters
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  type | string | 事件名字、事件类型 |
-|  callback | EventListenerOrEventListenerObject \| null | 事件监听器，触发事件时会调用此函数 |
+|  type | Type | 事件名字、事件类型 |
+|  callback | BusListenerOrEventListenerObject&lt;EventDetailMap\[Type\]&gt; \| null | 事件监听器，触发事件时会调用此函数 |
 |  options | [EventBusEventListenerOptions](./event-bus.eventbuseventlisteneroptions.md) \| boolean | <i>(Optional)</i> 选项 |
 
 <b>Returns:</b>
