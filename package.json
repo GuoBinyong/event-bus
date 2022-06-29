@@ -1,6 +1,6 @@
 {
   "name": "@gby/event-bus",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "event-bus 是基于原生 EventTarget 类来开发的事件总线，充分复用原生的能力增加了易用性",
   "main": "dist/event-bus.umd.js",
   "module": "dist/event-bus.es.js",
@@ -37,8 +37,8 @@
     "build": "vite build && tsc  --emitDeclarationOnly",
     "stage": "vite build --mode stage && tsc  --emitDeclarationOnly",
     "preview": "vite preview",
-    "api":"api-extractor run -c api-extractor.jsonc -l -v",
-    "doc":"npm run api ; api-documenter markdown -i ./temp -o doc"
+    "api": "api-extractor run -c api-extractor.jsonc -l -v",
+    "doc": "npm run api ; api-documenter markdown -i ./temp -o doc"
   },
   "devDependencies": {
     "@microsoft/api-documenter": "^7.17.15",
