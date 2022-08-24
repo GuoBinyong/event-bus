@@ -1,9 +1,9 @@
 {
   "name": "@gby/event-bus",
   "version": "1.0.2",
-  "description": "event-bus 是基于原生 EventTarget 类来开发的事件总线，充分复用原生的能力增加了易用性",
+  "description": "event-bus 是基于原生 EventTarget 类来开发的事件总线，无依赖，充分复用原生的能力增加了易用性",
   "main": "dist/event-bus.umd.js",
-  "module": "dist/event-bus.es.js",
+  "module": "dist/event-bus.mjs",
   "types": "dist/index.d.ts",
   "sideEffects": false,
   "homepage": "https://github.com/GuoBinyong/event-bus#readme",
@@ -34,17 +34,19 @@
   ],
   "scripts": {
     "dev": "vite",
-    "build": "vite build && tsc  --emitDeclarationOnly",
-    "stage": "vite build --mode stage && tsc  --emitDeclarationOnly",
+    "build": "vite build",
+    "bunch": "vite build --mode bunch",
     "preview": "vite preview",
     "api": "api-extractor run -c api-extractor.jsonc -l -v",
-    "doc": "npm run api ; api-documenter markdown -i ./temp -o doc"
+    "doc": "npm run api ; api-documenter markdown -i ./temp -o doc/api"
   },
   "devDependencies": {
     "@microsoft/api-documenter": "^7.17.15",
     "@microsoft/api-extractor": "^7.24.1",
-    "package-tls": "^1.2.2",
+    "build-tls": "^1.3.11",
+    "dts-bundle-generator": "^6.12.0",
+    "package-tls": "^1.3.1",
     "typescript": "^4.5.4",
-    "vite": "^2.9.9"
+    "vite": "^3.0.9"
   }
 }

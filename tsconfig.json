@@ -6,11 +6,10 @@
     "declaration": true,
     "strict": true,
     "resolveJsonModule": true,
-    "moduleResolution": "Node",
+    "moduleResolution": "node",
     "esModuleInterop": true,
     "skipLibCheck": true,
     "useDefineForClassFields": true,
-    "outDir":"dist/",
     "noImplicitOverride":true,
   },
   "include": ["src"]

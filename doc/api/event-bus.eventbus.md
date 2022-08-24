@@ -10,7 +10,7 @@
 
 ```typescript
 export declare class EventBus<EventDetailMap extends {
-    [name: string]: any;
+	[name: string]: any;
 } = any> extends EventTarget 
 ```
 <b>Extends:</b> EventTarget

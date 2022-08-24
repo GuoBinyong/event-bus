@@ -15,7 +15,7 @@ export interface EventBusEventListenerOptions extends AddEventListenerOptions
 
 ## Properties
 
-|  Property | Type | Description |
-|  --- | --- | --- |
-|  [times?](./event-bus.eventbuseventlisteneroptions.times.md) | number \| null | <i>(Optional)</i> 监听的次数 |
+|  Property | Modifiers | Type | Description |
+|  --- | --- | --- | --- |
+|  [times?](./event-bus.eventbuseventlisteneroptions.times.md) |  | number \| null | <i>(Optional)</i> 监听的次数 |
 

@@ -5,7 +5,7 @@
 [码云仓库]: https://gitee.com/guobinyong/event-bus
 
 
-[API接口文档]: ./doc/index.md
+[API接口文档]: ./doc/api/index.md
 
 
 

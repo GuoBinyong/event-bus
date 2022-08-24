@@ -6,33 +6,35 @@
 
 // @public
 export interface BusListener<Detail = any> {
-    // (undocumented)
+    	// (undocumented)
     (evt: CustomEvent<Detail>): void;
 }
 
 // @public
 export interface BusListenerObject<Detail = any> {
-    // (undocumented)
+    	// (undocumented)
     handleEvent(object: CustomEvent<Detail>): void;
 }
 
 // @public
+export type BusListenerOrEventListenerObject<Detail = any> = BusListener<Detail> | BusListenerObject<Detail>;
+
+// @public
 class EventBus<EventDetailMap extends {
-    [name: string]: any;
+    	[name: string]: any;
 } = any> extends EventTarget {
-    // Warning: (ae-forgotten-export) The symbol "BusListenerOrEventListenerObject" needs to be exported by the entry point index.d.ts
-    addEventListener<Type extends keyof EventDetailMap>(type: Type, callback: BusListenerOrEventListenerObject<EventDetailMap[Type]> | null, options?: EventBusEventListenerOptions | boolean): RemoveListener;
-    // (undocumented)
+    	addEventListener<Type extends keyof EventDetailMap>(type: Type, callback: BusListenerOrEventListenerObject<EventDetailMap[Type]> | null, options?: EventBusEventListenerOptions | boolean): RemoveListener;
+    	// (undocumented)
     addEventListener(type: string, callback: EventListenerOrEventListenerObject | null, options?: EventBusEventListenerOptions | boolean): RemoveListener;
-    dispatchEvent<Type extends keyof EventDetailMap>(name: Type, detail: EventDetailMap[Type]): boolean;
-    // (undocumented)
+    	dispatchEvent<Type extends keyof EventDetailMap>(name: Type, detail: EventDetailMap[Type]): boolean;
+    	// (undocumented)
     dispatchEvent(name: string, detail?: any): boolean;
-    dispatchEvent(event: Event): boolean;
-    multipleListen<Type extends keyof EventDetailMap>(type: Type, callback: BusListener<EventDetailMap[Type]>, times: number): RemoveListener;
-    // (undocumented)
+    	dispatchEvent(event: Event): boolean;
+    	multipleListen<Type extends keyof EventDetailMap>(type: Type, callback: BusListener<EventDetailMap[Type]>, times: number): RemoveListener;
+    	// (undocumented)
     multipleListen(type: string, callback: EventListener, times: number): RemoveListener;
-    onceListen<Type extends keyof EventDetailMap>(type: Type, callback: BusListener<EventDetailMap[Type]>, options?: AddEventListenerOptions): RemoveListener;
-    // (undocumented)
+    	onceListen<Type extends keyof EventDetailMap>(type: Type, callback: BusListener<EventDetailMap[Type]>, options?: AddEventListenerOptions): RemoveListener;
+    	// (undocumented)
     onceListen(type: string, callback: EventListener, options?: AddEventListenerOptions): RemoveListener;
 }
 export { EventBus }
@@ -40,7 +42,7 @@ export default EventBus;
 
 // @public
 export interface EventBusEventListenerOptions extends AddEventListenerOptions {
-    times?: number | null;
+    	times?: number | null;
 }
 
 // @public
