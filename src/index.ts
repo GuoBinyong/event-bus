@@ -75,21 +75,9 @@ export class EventBus<EventDetailMap extends { [name: string]: any } = any> exte
    * @param options - 选项
    * @returns  返回用于移除事件监听器的函数； 也可以通过 `EventTarget#removeEventListener` 方法移除
    */
-  public override addEventListener<Type extends keyof EventDetailMap>(
-    type: Type,
-    callback: BusListenerOrEventListenerObject<EventDetailMap[Type]> | null,
-    options?: EventBusEventListenerOptions | boolean,
-  ): RemoveListener;
-  public override addEventListener(
-    type: string,
-    callback: EventListenerOrEventListenerObject | null,
-    options?: EventBusEventListenerOptions | boolean,
-  ): RemoveListener;
-  public override addEventListener(
-    type: string,
-    callback: EventListenerOrEventListenerObject | null,
-    options?: EventBusEventListenerOptions | boolean,
-  ): RemoveListener {
+  public override addEventListener<Type extends keyof EventDetailMap>(type: Type, callback: BusListenerOrEventListenerObject<EventDetailMap[Type]> | null, options?: EventBusEventListenerOptions | boolean): RemoveListener;
+  public override addEventListener(type: string, callback: EventListenerOrEventListenerObject | null, options?: EventBusEventListenerOptions | boolean): RemoveListener;
+  public override addEventListener(type: string, callback: EventListenerOrEventListenerObject | null, options?: EventBusEventListenerOptions | boolean): RemoveListener {
     const times = (options as any)?.times;
     if (times) {
       const listener =
@@ -128,15 +116,7 @@ export class EventBus<EventDetailMap extends { [name: string]: any } = any> exte
    */
   public override dispatchEvent(event: Event): boolean;
   public override dispatchEvent(event: string | Event, detail?: EventDetailMap) {
-    const cusEvent =
-      event instanceof Event
-        ? event
-        : new CustomEvent(event, {
-          detail,
-          bubbles: false,
-          cancelable: true,
-          composed: false,
-        });
+    const cusEvent = event instanceof Event ? event : new CustomEvent(event, { detail, bubbles: false, cancelable: true, composed: false });
     return super.dispatchEvent(cusEvent);
   }
 
@@ -153,21 +133,9 @@ export class EventBus<EventDetailMap extends { [name: string]: any } = any> exte
    * @param options - 选项
    * @returns removeEventListener():void; 返回用于移除一次性事件监听器的函数； 也可以通过 EventTarget 的 removeEventListener 方法移除
    */
-  onceListen<Type extends keyof EventDetailMap>(
-    type: Type,
-    callback: BusListener<EventDetailMap[Type]>,
-    options?: AddEventListenerOptions,
-  ): RemoveListener;
-  onceListen(
-    type: string,
-    callback: EventListener,
-    options?: AddEventListenerOptions,
-  ): RemoveListener;
-  onceListen(
-    type: string,
-    callback: EventListener | BusListener<any>,
-    options?: AddEventListenerOptions,
-  ): RemoveListener {
+  onceListen<Type extends keyof EventDetailMap>(type: Type, callback: BusListener<EventDetailMap[Type]>, options?: AddEventListenerOptions): RemoveListener;
+  onceListen(type: string, callback: EventListener, options?: AddEventListenerOptions): RemoveListener;
+  onceListen(type: string, callback: EventListener | BusListener<any>, options?: AddEventListenerOptions): RemoveListener {
     return this.addEventListener(type, callback, { ...options, once: true });
   }
 
@@ -184,21 +152,9 @@ export class EventBus<EventDetailMap extends { [name: string]: any } = any> exte
    * @param times  需要监听的次数，如果小于 1 ，永远不会自动移除事件监听器，需要手动移除
    * @returns removeEventListener():void; 返回用于移除事件监听器的函数； 不能通过 EventTarget 的 removeEventListener 方法移除
    */
-  multipleListen<Type extends keyof EventDetailMap>(
-    type: Type,
-    callback: BusListener<EventDetailMap[Type]>,
-    times: number,
-  ): RemoveListener;
-  multipleListen(
-    type: string,
-    callback: EventListener,
-    times: number,
-  ): RemoveListener;
-  multipleListen(
-    type: string,
-    callback: EventListener | BusListener<any>,
-    times: number,
-  ): RemoveListener {
+  multipleListen<Type extends keyof EventDetailMap>(type: Type, callback: BusListener<EventDetailMap[Type]>, times: number): RemoveListener;
+  multipleListen(type: string, callback: EventListener, times: number): RemoveListener;
+  multipleListen(type: string, callback: EventListener | BusListener<any>, times: number): RemoveListener {
     let count = 0;
     const controller = new AbortController();
     const signal = controller.signal;
