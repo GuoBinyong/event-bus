@@ -2,7 +2,7 @@
  * 基于原生Dom中 EventTarget 类的事件总线
  * 
  * @remarks
- * event-bus 是基于原生 EventTarget 类来开发的事件总线，充分复用原生的能力增加了易用性。
+ * event-bus 是基于原生 EventTarget 类来开发的事件总线，充分复用原生的能力增加了易用性。拥有极少的代码就实现了 EventBus 的核心功能。
  * 
  * 具备以下特性：
  * 
@@ -59,6 +59,10 @@ type BusListenerOrEventListenerObject<Detail = any> = BusListener<Detail> | BusL
 
 /**
  * 事件总线
+ * 
+ * @remarks
+ * event-bus 是基于原生 EventTarget 类来开发的事件总线，充分复用原生的能力增加了易用性。拥有极少的代码就实现了 EventBus 的核心功能。
+ * 
  * @public
  */
 export class EventBus<EventDetailMap extends { [name: string]: any } = any> extends EventTarget {
@@ -76,7 +80,7 @@ export class EventBus<EventDetailMap extends { [name: string]: any } = any> exte
    * @returns  返回用于移除事件监听器的函数； 也可以通过 `EventTarget#removeEventListener` 方法移除
    */
   public override addEventListener<Type extends keyof EventDetailMap>(type: Type, callback: BusListenerOrEventListenerObject<EventDetailMap[Type]> | null, options?: EventBusEventListenerOptions | boolean): RemoveListener;
-  public override addEventListener(type: string, callback: EventListenerOrEventListenerObject | null, options?: EventBusEventListenerOptions | boolean): RemoveListener;
+  // public override addEventListener(type: string, callback: EventListenerOrEventListenerObject | null, options?: EventBusEventListenerOptions | boolean): RemoveListener;
   public override addEventListener(type: string, callback: EventListenerOrEventListenerObject | null, options?: EventBusEventListenerOptions | boolean): RemoveListener {
     const times = (options as any)?.times;
     if (times) {
@@ -108,7 +112,7 @@ export class EventBus<EventDetailMap extends { [name: string]: any } = any> exte
    * @returns 当该事件是可取消的(cancelable为true)并且至少一个该事件的 事件处理方法 调用了 `Event#preventDefault()`，则返回值为 `false`；否则返回`true`。
    */
   public override dispatchEvent<Type extends keyof EventDetailMap>(name: Type, detail: EventDetailMap[Type]): boolean;
-  public override dispatchEvent(name: string, detail?: any): boolean;
+  // public override dispatchEvent(name: string, detail?: any): boolean;
 
   /**
    * 派发事件
@@ -134,7 +138,7 @@ export class EventBus<EventDetailMap extends { [name: string]: any } = any> exte
    * @returns removeEventListener():void; 返回用于移除一次性事件监听器的函数； 也可以通过 EventTarget 的 removeEventListener 方法移除
    */
   onceListen<Type extends keyof EventDetailMap>(type: Type, callback: BusListener<EventDetailMap[Type]>, options?: AddEventListenerOptions): RemoveListener;
-  onceListen(type: string, callback: EventListener, options?: AddEventListenerOptions): RemoveListener;
+  // onceListen(type: string, callback: EventListener, options?: AddEventListenerOptions): RemoveListener;
   onceListen(type: string, callback: EventListener | BusListener<any>, options?: AddEventListenerOptions): RemoveListener {
     return this.addEventListener(type, callback, { ...options, once: true });
   }
@@ -153,7 +157,7 @@ export class EventBus<EventDetailMap extends { [name: string]: any } = any> exte
    * @returns removeEventListener():void; 返回用于移除事件监听器的函数； 不能通过 EventTarget 的 removeEventListener 方法移除
    */
   multipleListen<Type extends keyof EventDetailMap>(type: Type, callback: BusListener<EventDetailMap[Type]>, times: number): RemoveListener;
-  multipleListen(type: string, callback: EventListener, times: number): RemoveListener;
+  // multipleListen(type: string, callback: EventListener, times: number): RemoveListener;
   multipleListen(type: string, callback: EventListener | BusListener<any>, times: number): RemoveListener {
     let count = 0;
     const controller = new AbortController();
