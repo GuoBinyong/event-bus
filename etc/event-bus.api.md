@@ -5,29 +5,32 @@
 ```ts
 
 // @public
+export type BusEvent<D> = D extends Event ? D : CustomEvent<D>;
+
+// @public
 export interface BusListener<Detail = any> {
     	// (undocumented)
-    (evt: CustomEvent<Detail>): void;
+    (evt: BusEvent<Detail>): void;
 }
 
 // @public
 export interface BusListenerObject<Detail = any> {
     	// (undocumented)
-    handleEvent(object: CustomEvent<Detail>): void;
+    handleEvent(object: BusEvent<Detail>): void;
 }
 
 // @public
 export type BusListenerOrEventListenerObject<Detail = any> = BusListener<Detail> | BusListenerObject<Detail>;
 
 // @public
-class EventBus<EventDetailMap extends {
+class EventBus<EventMap extends {
     	[name: string]: any;
 } = any> extends EventTarget {
-    	addEventListener<Type extends keyof EventDetailMap>(type: Type, callback: BusListenerOrEventListenerObject<EventDetailMap[Type]> | null, options?: EventBusEventListenerOptions | boolean): RemoveListener;
-    	dispatchEvent<Type extends keyof EventDetailMap>(name: Type, detail: EventDetailMap[Type]): boolean;
+    	addEventListener<Type extends keyof EventMap>(type: Type, callback: BusListenerOrEventListenerObject<EventMap[Type]> | null, options?: EventBusEventListenerOptions | boolean): RemoveListener;
+    	dispatchEvent<Type extends keyof EventMap>(name: Type, detail: GetEventDetail<EventMap[Type]>): boolean;
     	dispatchEvent(event: Event): boolean;
-    	multipleListen<Type extends keyof EventDetailMap>(type: Type, callback: BusListener<EventDetailMap[Type]>, times: number): RemoveListener;
-    	onceListen<Type extends keyof EventDetailMap>(type: Type, callback: BusListener<EventDetailMap[Type]>, options?: AddEventListenerOptions): RemoveListener;
+    	multipleListen<Type extends keyof EventMap>(type: Type, callback: BusListener<EventMap[Type]>, times: number): RemoveListener;
+    	onceListen<Type extends keyof EventMap>(type: Type, callback: BusListener<EventMap[Type]>, options?: AddEventListenerOptions): RemoveListener;
 }
 export { EventBus }
 export default EventBus;
@@ -36,6 +39,9 @@ export default EventBus;
 export interface EventBusEventListenerOptions extends AddEventListenerOptions {
     	times?: number | null;
 }
+
+// @public
+export type GetEventDetail<D> = D extends Event ? (D extends CustomEvent<infer Detail> ? Detail : never) : D;
 
 // @public
 export type RemoveListener = () => void;

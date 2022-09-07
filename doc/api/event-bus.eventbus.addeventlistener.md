@@ -9,7 +9,7 @@
 <b>Signature:</b>
 
 ```typescript
-addEventListener<Type extends keyof EventDetailMap>(type: Type, callback: BusListenerOrEventListenerObject<EventDetailMap[Type]> | null, options?: EventBusEventListenerOptions | boolean): RemoveListener;
+addEventListener<Type extends keyof EventMap>(type: Type, callback: BusListenerOrEventListenerObject<EventMap[Type]> | null, options?: EventBusEventListenerOptions | boolean): RemoveListener;
 ```
 
 ## Parameters
@@ -17,7 +17,7 @@ addEventListener<Type extends keyof EventDetailMap>(type: Type, callback: BusLis
 |  Parameter | Type | Description |
 |  --- | --- | --- |
 |  type | Type | 事件名字、事件类型 |
-|  callback | [BusListenerOrEventListenerObject](./event-bus.buslisteneroreventlistenerobject.md)<!-- -->&lt;EventDetailMap\[Type\]&gt; \| null | 事件监听器，触发事件时会调用此函数 |
+|  callback | [BusListenerOrEventListenerObject](./event-bus.buslisteneroreventlistenerobject.md)<!-- -->&lt;EventMap\[Type\]&gt; \| null | 事件监听器，触发事件时会调用此函数 |
 |  options | [EventBusEventListenerOptions](./event-bus.eventbuseventlisteneroptions.md) \| boolean | <i>(Optional)</i> 选项 |
 
 <b>Returns:</b>

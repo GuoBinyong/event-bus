@@ -32,6 +32,8 @@ event-bus 是基于原生 EventTarget 类来开发的事件总线，充分复用
 
 |  Type Alias | Description |
 |  --- | --- |
+|  [BusEvent](./event-bus.busevent.md) | 事件类型 |
 |  [BusListenerOrEventListenerObject](./event-bus.buslisteneroreventlistenerobject.md) | EventBus 的 自定义事件的监听器 或 监听器对象 |
+|  [GetEventDetail](./event-bus.geteventdetail.md) | 获取事件的数据类型 |
 |  [RemoveListener](./event-bus.removelistener.md) | 移除监听器 |
 

@@ -5,22 +5,27 @@ import EventBus from "../src/index"
 
 // 创建只能派发 或 监听 指定事件的事件总线实例
 /**
- * 可以通过给 EventBus 指定 事件名字 与 数据类型的映射 来明确每个事件对应的事件的数据类型
+ * 可以通过给 EventBus 指定 事件名字 与 数据类型或事件类型的映射 来明确每个事件对应的事件的数据类型
  * 这样，以后使用 ebus 时就会自动提示对应的数据类型，在遇到不符合的映射的数据类型时也会提示错误
  */
 
-interface EventDataMap {
+interface EventMap {
     /**
      * 名字为 `a` 的事件的对应的数据的类型 是 string
      */
     a:string;
 
     /**
-     * 名字为 `a` 的事件的对应的数据的类型 是 string
+     * 名字为 `b` 的事件的对应的数据的类型 是 number
      */
     b:number;
+
+    /**
+     * 名字为 `e` 的事件的对应的事件类型 是 ProgressEvent
+     */
+    e:ProgressEvent;
 }
-const ebus = new EventBus<EventDataMap>()
+const ebus = new EventBus<EventMap>()
 
 /**
  * 当监听事件 `a` 时，detail 就会被自动识别为 string
@@ -35,6 +40,13 @@ ebus.addEventListener("a",(event) => {
 ebus.addEventListener("c",(event) => {
     const d = event;
 });   // 错误提示：类型“"c"”的参数不能赋给类型“keyof EventDataMap”的参数。
+
+/**
+ * 因为 EventMap 定义了名字 `e` 的事件类型为 ProgressEvent，所以 下面 event 参数的类型为 ProgressEvent
+ */
+ebus.addEventListener("e",(event) => {
+    const d = event;  //  event 的类型为 ProgressEvent
+});
 
 
 /**

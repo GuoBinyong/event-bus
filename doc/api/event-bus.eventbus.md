@@ -9,7 +9,7 @@
 <b>Signature:</b>
 
 ```typescript
-export declare class EventBus<EventDetailMap extends {
+export declare class EventBus<EventMap extends {
 	[name: string]: any;
 } = any> extends EventTarget 
 ```

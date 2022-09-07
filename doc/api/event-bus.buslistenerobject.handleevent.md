@@ -7,14 +7,14 @@
 <b>Signature:</b>
 
 ```typescript
-handleEvent(object: CustomEvent<Detail>): void;
+handleEvent(object: BusEvent<Detail>): void;
 ```
 
 ## Parameters
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  object | CustomEvent&lt;Detail&gt; |  |
+|  object | [BusEvent](./event-bus.busevent.md)<!-- -->&lt;Detail&gt; |  |
 
 <b>Returns:</b>
 
