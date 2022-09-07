@@ -15,17 +15,17 @@ export declare class EventBus<EventDetailMap extends {
 ```
 <b>Extends:</b> EventTarget
 
+## Remarks
+
+event-bus 是基于原生 EventTarget 类来开发的事件总线，充分复用原生的能力增加了易用性。拥有极少的代码就实现了 EventBus 的核心功能。
+
 ## Methods
 
 |  Method | Modifiers | Description |
 |  --- | --- | --- |
 |  [addEventListener(type, callback, options)](./event-bus.eventbus.addeventlistener.md) |  | 添加事件监听器；会返回一个用于移除事件监听器的函数； |
-|  [addEventListener(type, callback, options)](./event-bus.eventbus.addeventlistener_1.md) |  |  |
 |  [dispatchEvent(name, detail)](./event-bus.eventbus.dispatchevent.md) |  | 派发事件 |
-|  [dispatchEvent(name, detail)](./event-bus.eventbus.dispatchevent_1.md) |  |  |
-|  [dispatchEvent(event)](./event-bus.eventbus.dispatchevent_2.md) |  | 派发事件 |
+|  [dispatchEvent(event)](./event-bus.eventbus.dispatchevent_1.md) |  | 派发事件 |
 |  [multipleListen(type, callback, times)](./event-bus.eventbus.multiplelisten.md) |  | 添加监听指定次数的事件监听器； |
-|  [multipleListen(type, callback, times)](./event-bus.eventbus.multiplelisten_1.md) |  |  |
 |  [onceListen(type, callback, options)](./event-bus.eventbus.oncelisten.md) |  | 添加一次性的事件监听器； |
-|  [onceListen(type, callback, options)](./event-bus.eventbus.oncelisten_1.md) |  |  |
 

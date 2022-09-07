@@ -8,7 +8,7 @@
 
 ## Remarks
 
-event-bus 是基于原生 EventTarget 类来开发的事件总线，充分复用原生的能力增加了易用性。
+event-bus 是基于原生 EventTarget 类来开发的事件总线，充分复用原生的能力增加了易用性。拥有极少的代码就实现了 EventBus 的核心功能。
 
 具备以下特性：
 

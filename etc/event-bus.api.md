@@ -24,18 +24,10 @@ class EventBus<EventDetailMap extends {
     	[name: string]: any;
 } = any> extends EventTarget {
     	addEventListener<Type extends keyof EventDetailMap>(type: Type, callback: BusListenerOrEventListenerObject<EventDetailMap[Type]> | null, options?: EventBusEventListenerOptions | boolean): RemoveListener;
-    	// (undocumented)
-    addEventListener(type: string, callback: EventListenerOrEventListenerObject | null, options?: EventBusEventListenerOptions | boolean): RemoveListener;
     	dispatchEvent<Type extends keyof EventDetailMap>(name: Type, detail: EventDetailMap[Type]): boolean;
-    	// (undocumented)
-    dispatchEvent(name: string, detail?: any): boolean;
     	dispatchEvent(event: Event): boolean;
     	multipleListen<Type extends keyof EventDetailMap>(type: Type, callback: BusListener<EventDetailMap[Type]>, times: number): RemoveListener;
-    	// (undocumented)
-    multipleListen(type: string, callback: EventListener, times: number): RemoveListener;
     	onceListen<Type extends keyof EventDetailMap>(type: Type, callback: BusListener<EventDetailMap[Type]>, options?: AddEventListenerOptions): RemoveListener;
-    	// (undocumented)
-    onceListen(type: string, callback: EventListener, options?: AddEventListenerOptions): RemoveListener;
 }
 export { EventBus }
 export default EventBus;

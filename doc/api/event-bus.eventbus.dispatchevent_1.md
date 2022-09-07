@@ -4,18 +4,19 @@
 
 ## EventBus.dispatchEvent() method
 
+派发事件
+
 <b>Signature:</b>
 
 ```typescript
-dispatchEvent(name: string, detail?: any): boolean;
+dispatchEvent(event: Event): boolean;
 ```
 
 ## Parameters
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  name | string |  |
-|  detail | any | <i>(Optional)</i> |
+|  event | Event | 事件对象 |
 
 <b>Returns:</b>
 
