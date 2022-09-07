@@ -55,7 +55,7 @@ const workerFileBuildOptions = {
     outDir:srcDir, // worker 的输出目录
     emptyOutDir:false, // 每次执行时是否清空输出目录
     fileName:"[dir]/[name]", // 构建产物的文件名字，详见 buildFiles() 函数的 fileName 选项
-    formats:["es"],  // 构建产物的模块格式
+    formats:["iife"],  // 构建产物的模块格式
     buildOrder:"before",  // 相对于主构建程序，是在其之前构建，还是在其之后构建，可用的值是 ： "before" 或 "前","after" 或 "后"
 };
 
@@ -73,6 +73,13 @@ const config = {
         outDir:outDir,
         rollupOptions:{
             external:excludedDep_Exclude,
+            /**
+             * String 使用什么导出模式。默认为auto，它根据entry模块导出的内容猜测你的意图：
+             * default – 如果你使用 export default ... 仅仅导出一个东西，那适合用这个
+             * named – 如果你导出多个东西，适合用这个
+             * none – 如果你不导出任何内容 (例如，你正在构建应用程序，而不是库)，则适合用这个
+             */
+            // exports:"auto", 
         }
     }
 };
@@ -180,17 +187,17 @@ function buildFiles(options){
        const fileInfo = parse(relPath);
        const dir = fileInfo.dir;
        const dirReg = dir ? /\[\s*dir\s*\]/g  : /\[\s*dir\s*\]\s*\//g;
-       fileName = fileName.replace(dirReg,dir);
+       const finalFileName = fileName.replace(dirReg,dir);
        
        return  build({
            configFile:false,
            build:{
                emptyOutDir:index > 0 ? false : emptyOutDir,
                lib: {
-                   name:fileInfo.name,
+                   name:getBaseNameOfHumpFormat(fileInfo.name),
                    formats:formats,
                    entry: entryFile,
-                   fileName:fileName,
+                   fileName:finalFileName,
                },
                outDir:outDir,
            }
