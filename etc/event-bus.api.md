@@ -27,7 +27,7 @@ class EventBus<EventMap extends {
     	[name: string]: any;
 } = any> extends EventTarget {
     	addEventListener<Type extends keyof EventMap>(type: Type, callback: BusListenerOrEventListenerObject<EventMap[Type]> | null, options?: EventBusEventListenerOptions | boolean): RemoveListener;
-    	dispatchEvent<Type extends keyof EventMap>(name: Type, detail: GetEventDetail<EventMap[Type]>): boolean;
+    	dispatchEvent<Type extends keyof EventMap>(name: Type, detail?: GetEventDetail<EventMap[Type]>): boolean;
     	dispatchEvent(event: Event): boolean;
     	multipleListen<Type extends keyof EventMap>(type: Type, callback: BusListener<EventMap[Type]>, times: number): RemoveListener;
     	onceListen<Type extends keyof EventMap>(type: Type, callback: BusListener<EventMap[Type]>, options?: AddEventListenerOptions): RemoveListener;
