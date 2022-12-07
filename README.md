@@ -10,7 +10,12 @@
 
 
 
-> 目录
+**目录：**  
+
+<!-- @import "[TOC]" {cmd="toc" depthFrom=1 depthTo=6 orderedList=false} -->
+
+<!-- code_chunk_output -->
+
 - [1. 背景](#1-背景)
 - [2. 简介](#2-简介)
 - [3. 安装方式](#3-安装方式)
@@ -19,7 +24,9 @@
 - [4. 教程](#4-教程)
 - [5. API接口文档](#5-api接口文档)
 
+<!-- /code_chunk_output -->
 
+---------------
 
 # 1. 背景
 npm 上有很多事件总线的库，它们基本上都有以下特点 和 缺点：
@@ -58,7 +65,6 @@ event-bus 是基于原生 EventTarget 类来开发的事件总线，充分复用
 - 给该仓库提交 [issues][]
 - 给我 Pull requests
 - 邮箱：<guobinyong@qq.com>
-- QQ：guobinyong@qq.com
 - 微信：keyanzhe
 
 # 3. 安装方式
@@ -94,11 +100,3 @@ npm install @gby/event-bus
 
 # 5. API接口文档
 详情跳转至[API接口文档][]
-
-
-
---------------------
-
-> 有您的支持，我会在开源的道路上，越走越远
-
-![赞赏码](https://i.loli.net/2020/04/08/PGsAEqdJCin1oQL.jpg)

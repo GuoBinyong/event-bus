@@ -12,7 +12,9 @@ const entry = 'src/index.ts';   // 输入（入口）文件
 //所需构建的模块格式
 const formats_ExcludeDep = ['es', 'umd'];  //要排除依赖包的模块格式
 const formats_IncludeDep = ['iife'];  //要包含依赖包的模块格式
-const singleDts = true;   // 是否要将声明汇总成一个单独的文件
+const generateDts = true;  // 是否生成 TypeScript 的类型声明文件
+const singleDts = false;   // 是否要将声明汇总成一个单独的文件
+
 /**
  * 将声明汇总成一个文件的选项
  * @type {import("build-tls").DtsBundle|boolean}
@@ -30,6 +32,14 @@ const singleDts = true;   // 是否要将声明汇总成一个单独的文件
  const copyDTS = {
     exclude:["vite-env.d.ts"], //需要排除的文件或目录
 };
+
+
+/**
+ * 可通过在 ssh 环境中设置 `debug=true` 来在调试模式下构建代码；如：`debug=true npm run build`
+ * 在调试模式下：
+ * - 会开启 sourcemap
+ * - 会关闭最小化混淆代码
+ */
 
 
 
@@ -68,7 +78,15 @@ const config = {
     build:{
         lib: {
             name:pkgName, 
+            /**
+             * https://rollupjs.org/guide/en/#input
+             * @type `string | string [] | { [entryName: string]: string }`
+             * 当指定多个入口文件时，最终的构建产物包含两类文件块：
+             *  + 这些入口之间所共享的 代码块，称为 共享块
+             *  + 每个入口文件对应一个单独的 文件块，称为入口块，入口块 中会引入 共享块。当 `input` 是数组 `string []` 类型时，入口块的名字 与入口文字的名字一个，当 `input` 是对象类型 `{ [entryName: string]: string }` 时，入口块的名字 是对应的 `entryName`。
+             */
             entry: entry,
+            formats:formats_ExcludeDep,
         },
         outDir:outDir,
         rollupOptions:{
@@ -94,6 +112,10 @@ const config = {
  */
  export default defineConfig(async (options)=>{
     const {mode,command} = options;
+    if (process.env.debug === "true"){  // 是否在调试模式下构建代码
+        config.build.minify = false;
+        config.build.sourcemap = true;
+    }
     if (command !== "build") return config;
     const isBunch = mode === "bunch";
     
@@ -106,18 +128,20 @@ const config = {
         await buildFiles(workerFileBuildOptions);
     }
 
-    const excludedDepTypes =  isBunch ? excludedDepTypes_Include : excludedDepTyps_Exclude;
-    const allDepTyps = ["dependencies","optionalDependencies","peerDependencies"];
-    const inlinedDepTypes = allDepTyps.filter(dType=>!excludedDepTypes.includes(dType));
-    generate_d_ts(srcDir,dtsDir,{
-        onExit:false,
-        copyDTS:copyDTS,
-        outFile: singleDts||isBunch ? dtsFile : null,
-        dtsBundle:{
-            externalInlines:[...getDependencieNames(pkg,inlinedDepTypes)],
-            ...dtsBundle,
-        }
-    }).catch((err)=>{console.error(`${pkg.name}：generate_d_ts 生成.d.ts文件时出错!`)});
+    if (generateDts){
+        const excludedDepTypes =  isBunch ? excludedDepTypes_Include : excludedDepTyps_Exclude;
+        const allDepTyps = ["dependencies","optionalDependencies","peerDependencies"];
+        const inlinedDepTypes = allDepTyps.filter(dType=>!excludedDepTypes.includes(dType));
+        generate_d_ts(srcDir,dtsDir,{
+            onExit:false,
+            copyDTS:copyDTS,
+            outFile: singleDts||isBunch ? dtsFile : null,
+            dtsBundle:{
+                externalInlines:[...getDependencieNames(pkg,inlinedDepTypes)],
+                ...dtsBundle,
+            }
+        }).catch((err)=>{console.error(`${pkg.name}：generate_d_ts 生成.d.ts文件时出错!`)});
+    }
     
 
 
