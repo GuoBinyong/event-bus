@@ -9,7 +9,7 @@ EventBus 的 自定义事件的监听器 或 监听器对象
 <b>Signature:</b>
 
 ```typescript
-export declare type BusListenerOrEventListenerObject<Detail = any> = BusListener<Detail> | BusListenerObject<Detail>;
+export type BusListenerOrEventListenerObject<Detail = any> = BusListener<Detail> | BusListenerObject<Detail>;
 ```
 <b>References:</b> [BusListener](./event-bus.buslistener.md)<!-- -->, [BusListenerObject](./event-bus.buslistenerobject.md)
 

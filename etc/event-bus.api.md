@@ -9,13 +9,13 @@ export type BusEvent<D> = D extends Event ? D : CustomEvent<D>;
 
 // @public
 export interface BusListener<Detail = any> {
-    	// (undocumented)
+    // (undocumented)
     (evt: BusEvent<Detail>): void;
 }
 
 // @public
 export interface BusListenerObject<Detail = any> {
-    	// (undocumented)
+    // (undocumented)
     handleEvent(object: BusEvent<Detail>): void;
 }
 
@@ -23,21 +23,24 @@ export interface BusListenerObject<Detail = any> {
 export type BusListenerOrEventListenerObject<Detail = any> = BusListener<Detail> | BusListenerObject<Detail>;
 
 // @public
-class EventBus<EventMap extends {
-    	[name: string]: any;
-} = any> extends EventTarget {
-    	addEventListener<Type extends keyof EventMap>(type: Type, callback: BusListenerOrEventListenerObject<EventMap[Type]> | null, options?: EventBusEventListenerOptions | boolean): RemoveListener;
-    	dispatchEvent<Type extends keyof EventMap>(name: Type, detail?: GetEventDetail<EventMap[Type]>): boolean;
-    	dispatchEvent(event: Event): boolean;
-    	multipleListen<Type extends keyof EventMap>(type: Type, callback: BusListener<EventMap[Type]>, times: number): RemoveListener;
-    	onceListen<Type extends keyof EventMap>(type: Type, callback: BusListener<EventMap[Type]>, options?: AddEventListenerOptions): RemoveListener;
+class EventBus<EventMap extends Record<string, any> = Record<string, any>> extends EventTarget {
+    addEventListener<Type extends keyof EventMap>(type: Type, callback: BusListenerOrEventListenerObject<EventMap[Type]> | null, options?: EventBusEventListenerOptions | boolean): RemoveListener;
+    // Warning: (ae-forgotten-export) The symbol "KeyOfNonNullableValue" needs to be exported by the entry point index.d.ts
+    dispatchEvent<Type extends KeyOfNonNullableValue<EventMap>>(name: Type, detail: GetEventDetail<EventMap[Type]>): boolean;
+    // Warning: (ae-forgotten-export) The symbol "KeyOfNullableValue" needs to be exported by the entry point index.d.ts
+    //
+    // (undocumented)
+    dispatchEvent<Type extends KeyOfNullableValue<EventMap>>(name: Type, detail?: GetEventDetail<EventMap[Type]>): boolean;
+    dispatchEvent(event: Event): boolean;
+    multipleListen<Type extends keyof EventMap>(type: Type, callback: BusListener<EventMap[Type]>, times: number): RemoveListener;
+    onceListen<Type extends keyof EventMap>(type: Type, callback: BusListener<EventMap[Type]>, options?: AddEventListenerOptions): RemoveListener;
 }
 export { EventBus }
 export default EventBus;
 
 // @public
 export interface EventBusEventListenerOptions extends AddEventListenerOptions {
-    	times?: number | null;
+    times?: number | null;
 }
 
 // @public

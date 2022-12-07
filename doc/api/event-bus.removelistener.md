@@ -9,5 +9,5 @@
 <b>Signature:</b>
 
 ```typescript
-export declare type RemoveListener = () => void;
+export type RemoveListener = () => void;
 ```

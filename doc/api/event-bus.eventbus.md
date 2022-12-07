@@ -9,9 +9,7 @@
 <b>Signature:</b>
 
 ```typescript
-export declare class EventBus<EventMap extends {
-	[name: string]: any;
-} = any> extends EventTarget 
+export declare class EventBus<EventMap extends Record<string, any> = Record<string, any>> extends EventTarget 
 ```
 <b>Extends:</b> EventTarget
 
@@ -25,7 +23,8 @@ event-bus 是基于原生 EventTarget 类来开发的事件总线，充分复用
 |  --- | --- | --- |
 |  [addEventListener(type, callback, options)](./event-bus.eventbus.addeventlistener.md) |  | 添加事件监听器；会返回一个用于移除事件监听器的函数； |
 |  [dispatchEvent(name, detail)](./event-bus.eventbus.dispatchevent.md) |  | 派发事件 |
-|  [dispatchEvent(event)](./event-bus.eventbus.dispatchevent_1.md) |  | 派发事件 |
+|  [dispatchEvent(name, detail)](./event-bus.eventbus.dispatchevent_1.md) |  |  |
+|  [dispatchEvent(event)](./event-bus.eventbus.dispatchevent_2.md) |  | 派发事件 |
 |  [multipleListen(type, callback, times)](./event-bus.eventbus.multiplelisten.md) |  | 添加监听指定次数的事件监听器； |
 |  [onceListen(type, callback, options)](./event-bus.eventbus.oncelisten.md) |  | 添加一次性的事件监听器； |
 

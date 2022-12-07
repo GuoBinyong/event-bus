@@ -41,11 +41,11 @@ npm 上有很多事件总线的库，它们基本上都有以下特点 和 缺�
 - 派发事件时，需要手动配置 `Event` 对象的某些属性，如：`{bubbles: false,cancelable: true,composed: false}`
 - `window` 上会经常触发很多不相关的事件，这会增加事件检索成本
 
-监于以上原因，该库就诞生了。
+鉴于以上原因，该库就诞生了。
 
 
 # 2. 简介
-event-bus 是基于原生 EventTarget 类来开发的事件总线，充分复用原生的能力增加了易用性。
+event-bus 是基于原生 EventTarget 类来开发的事件总线，无依赖（零依赖），充分复用原生的能力增加了易用性。拥有极少的代码就实现了 EventBus 的核心功能，而且还具备精确且完善的 TypeScript 类型系统。
 
 
 **具有以下特性：**  
@@ -72,7 +72,7 @@ event-bus 是基于原生 EventTarget 类来开发的事件总线，充分复用
 
 
 ## 3.1. 方式1：通过 npm 安装
-```
+```shell
 npm install @gby/event-bus
 ```
 
@@ -82,12 +82,12 @@ npm install @gby/event-bus
 
 
 1. 引用 event-bus
-   ```
+   ```html
    <script src="path/to/package/event-bus.iife.js"></script>
    ```
    
 2. 使用全局的 `EventBus`
-   ```
+   ```html
    <script>
    // 使用全局的 EventBus
        const eBus = new EventBus();

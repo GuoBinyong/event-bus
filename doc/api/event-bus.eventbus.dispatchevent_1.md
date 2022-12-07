@@ -4,19 +4,18 @@
 
 ## EventBus.dispatchEvent() method
 
-派发事件
-
 <b>Signature:</b>
 
 ```typescript
-dispatchEvent(event: Event): boolean;
+dispatchEvent<Type extends KeyOfNullableValue<EventMap>>(name: Type, detail?: GetEventDetail<EventMap[Type]>): boolean;
 ```
 
 ## Parameters
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  event | Event | 事件对象 |
+|  name | Type |  |
+|  detail | [GetEventDetail](./event-bus.geteventdetail.md)<!-- -->&lt;EventMap\[Type\]&gt; | <i>(Optional)</i> |
 
 <b>Returns:</b>
 

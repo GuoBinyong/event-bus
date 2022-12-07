@@ -9,7 +9,7 @@
 <b>Signature:</b>
 
 ```typescript
-dispatchEvent<Type extends keyof EventMap>(name: Type, detail?: GetEventDetail<EventMap[Type]>): boolean;
+dispatchEvent<Type extends KeyOfNonNullableValue<EventMap>>(name: Type, detail: GetEventDetail<EventMap[Type]>): boolean;
 ```
 
 ## Parameters
@@ -17,7 +17,7 @@ dispatchEvent<Type extends keyof EventMap>(name: Type, detail?: GetEventDetail<E
 |  Parameter | Type | Description |
 |  --- | --- | --- |
 |  name | Type | 事件的名字 |
-|  detail | [GetEventDetail](./event-bus.geteventdetail.md)<!-- -->&lt;EventMap\[Type\]&gt; | <i>(Optional)</i> 事件所携带的数据、信息 |
+|  detail | [GetEventDetail](./event-bus.geteventdetail.md)<!-- -->&lt;EventMap\[Type\]&gt; | 事件所携带的数据、信息 |
 
 <b>Returns:</b>
 

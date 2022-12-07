@@ -9,5 +9,5 @@
 <b>Signature:</b>
 
 ```typescript
-export declare type GetEventDetail<D> = D extends Event ? (D extends CustomEvent<infer Detail> ? Detail : never) : D;
+export type GetEventDetail<D> = D extends Event ? (D extends CustomEvent<infer Detail> ? Detail : never) : D;
 ```
