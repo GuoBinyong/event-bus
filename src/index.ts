@@ -7,15 +7,16 @@
  * 具备以下特性：
  * 
  * - 基于 `EventTarget` 实现，拥有极少量的代码 和 极高的性能
+ * 
  * - 拥有丰富、易用的 API，如：一次性监听、指定次数的监听 等等
+ * 
  * - 派发事件时，自动配置 Event 相关属性为合适的值
  * 
  * @packageDocumentation
  */
 
 
-
-
+import type {KeyOfNonNullableValue,KeyOfNullableValue} from "./tools"
 
 
 /**
@@ -79,7 +80,7 @@ export type BusEvent<D> = D extends Event ? D :  CustomEvent<D>;
  * 
  * @public
  */
-export class EventBus<EventMap extends { [name: string]: any } = any> extends EventTarget {
+export class EventBus<EventMap extends Record<string,any> = Record<string,any>> extends EventTarget {
 
 
   /**
@@ -123,8 +124,8 @@ export class EventBus<EventMap extends { [name: string]: any } = any> extends Ev
    * @param detail - 事件所携带的数据、信息
    * @returns 当该事件是可取消的(cancelable为true)并且至少一个该事件的 事件处理方法 调用了 `Event#preventDefault()`，则返回值为 `false`；否则返回`true`。
    */
-  public override dispatchEvent<Type extends keyof EventMap>(name: Type, detail?: GetEventDetail<EventMap[Type]>): boolean;
-  // public override dispatchEvent(name: string, detail?: any): boolean;
+  public override dispatchEvent<Type extends KeyOfNonNullableValue<EventMap>>(name: Type, detail: GetEventDetail<EventMap[Type]>): boolean;
+  public override dispatchEvent<Type extends KeyOfNullableValue<EventMap>>(name: Type, detail?: GetEventDetail<EventMap[Type]>): boolean;
 
   /**
    * 派发事件
